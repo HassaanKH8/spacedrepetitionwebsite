@@ -43,7 +43,7 @@ const Tasks = () => {
 
     const handleSave = async () => {
         try {
-            await axios.post('http://localhost:5000/api/edittasks', { id: theID, subject: editSubject, task: editTask });
+            await axios.post(`${process.env.REACT_APP_LINK}/api/edittasks`, { id: theID, subject: editSubject, task: editTask });
 
             setEdit(false)
             getTasks(username)
@@ -56,7 +56,7 @@ const Tasks = () => {
 
     const getTasks = async (usern) => {
         try {
-            const response = await axios.post('http://localhost:5000/tasks', { username: usern });
+            const response = await axios.post(`${process.env.REACT_APP_LINK}/tasks`, { username: usern });
             setTaskList(response.data.taskList);
 
         } catch (error) {
@@ -66,7 +66,7 @@ const Tasks = () => {
 
     const handleDelete = async (id) => {
         try {
-            await axios.post('http://localhost:5000/api/delete', { id: id });
+            await axios.post(`${process.env.REACT_APP_LINK}/api/delete`, { id: id });
 
             getTasks(username)
 
@@ -89,11 +89,11 @@ const Tasks = () => {
 
     const filterTasksByDate = (date) => {
         const targetDate = new Date(date);
-        targetDate.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
+        targetDate.setHours(0, 0, 0, 0);
 
         return taskList.filter(task => {
             const taskDate = new Date(task.date);
-            taskDate.setHours(0, 0, 0, 0); // Reset time to midnight for comparison
+            taskDate.setHours(0, 0, 0, 0);
             return taskDate.getTime() === targetDate.getTime();
         });
     };
@@ -285,17 +285,6 @@ const Tasks = () => {
                             <button style={{ marginBottom: 20 }} className='submitbtn' onClick={() => { setEdit(false) }}>Close</button>
                         </div>
                     )}
-                    {/* {taskList.map((task, index) => {
-                        return (
-                            <div key={index} className='thetaskcontainer'>
-                                <h1 className='taskdata'>{task.subject} - {task.task}</h1>
-                                <div>
-                                    <img src={require('../assets/pencil.png')} className='taskpngs' onClick={() => { handleEdit(task._id, task.subject, task.task) }} />
-                                    <img src={require('../assets/bin.png')} className='taskpngs' onClick={() => { handleDelete(task._id) }} />
-                                </div>
-                            </div>
-                        );
-                    })} */}
                 </div>
             </div>
         </div>

@@ -18,7 +18,7 @@ const Register = () => {
         if (username !== "" && email !== "" && password !== "") {
             if (password.length > 6) {
                 try {
-                    const response = await axios.post('http://localhost:5000/api/register', { username: username, email: email, password: password });
+                    const response = await axios.post(`${process.env.REACT_APP_LINK}/api/register`, { username: username, email: email, password: password });
                     
                     if (response.data.message === "User already exists") {
                         setMessage("User already exists!")
