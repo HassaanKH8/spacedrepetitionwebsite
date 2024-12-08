@@ -15,6 +15,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setMessage("Loading...")
         if (username !== "" && email !== "" && password !== "") {
             if (password.length > 6) {
                 try {

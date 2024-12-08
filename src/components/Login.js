@@ -9,12 +9,13 @@ const Login = () => {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+        setLoading(true)
         try {
-            const response = await axios.post(`${process.env.REACT_APP_LINK}/api/login`, {email, password});
+            const response = await axios.post(`${process.env.REACT_APP_LINK}/api/login`, { email, password });
             console.log(response.data);
             if (response.data.token) {
                 localStorage.setItem('user_token', response.data.token)
@@ -23,7 +24,7 @@ const Login = () => {
         } catch (error) {
             console.error('There was an error!', error);
         }
-
+        setLoading(false)
     }
 
     return (
@@ -42,15 +43,18 @@ const Login = () => {
                         <p className='entryp'>Password:</p>
                         <input className='entryinput' type='password' placeholder='Password...' value={password} onChange={(e) => { setPassword(e.target.value) }} />
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-                        <button className='submitbtn' type='submit'>Login</button>
+                    <div style={{ display: 'flex', flexDirection: "column", alignItems: 'center', justifyContent: 'center', marginTop: 20 }}>
+                        {loading && (
+                            <p style={{fontFamily: "EB Garamond"}}>Loading...</p>
+                        )}
+                        <button className='submitbtn' type='submit' style={{marginTop:10}}>Login</button>
                     </div>
                 </form>
-                <p style={{fontFamily: "EB Garamond", marginTop: 10, cursor: 'pointer'}} onClick={()=>{navigate("/register")}}>Don't have an account? Register</p>
-                <div style={{ display: 'flex', flexDirection: 'column', marginTop: 20, fontFamily: "EB Garamond", fontSize: 20}}>
+                <p style={{ fontFamily: "EB Garamond", marginTop: 10, cursor: 'pointer' }} onClick={() => { navigate("/register") }}>Don't have an account? Register</p>
+                <div style={{ display: 'flex', flexDirection: 'column', marginTop: 20, fontFamily: "EB Garamond", fontSize: 20 }}>
                     <p>Email:</p>
                     <p>demo123@gmail.com</p>
-                    <div style={{marginTop: 10}}></div>
+                    <div style={{ marginTop: 10 }}></div>
                     <p>Password:</p>
                     <p>demo123</p>
                 </div>
