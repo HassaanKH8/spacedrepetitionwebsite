@@ -7,6 +7,7 @@ import axios from 'axios';
 const Tasks = () => {
 
     const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
     const [username, setUsername] = useState("")
     const [taskList, setTaskList] = useState([])
 
@@ -42,6 +43,7 @@ const Tasks = () => {
     }
 
     const handleSave = async () => {
+        setLoading(true)
         try {
             await axios.post(`${process.env.REACT_APP_LINK}/api/edittasks`, { id: theID, subject: editSubject, task: editTask });
 
@@ -51,10 +53,12 @@ const Tasks = () => {
         } catch (error) {
             console.error('There was an error!', error);
         }
+        setLoading(false)
     }
 
 
     const getTasks = async (usern) => {
+        setLoading(true)
         try {
             const response = await axios.post(`${process.env.REACT_APP_LINK}/tasks`, { username: usern });
             setTaskList(response.data.taskList);
@@ -62,9 +66,11 @@ const Tasks = () => {
         } catch (error) {
             console.error('There was an error!', error);
         }
+        setLoading(false)
     }
 
     const handleDelete = async (id) => {
+        setLoading(true)
         try {
             await axios.post(`${process.env.REACT_APP_LINK}/api/delete`, { id: id });
 
@@ -73,6 +79,7 @@ const Tasks = () => {
         } catch (error) {
             console.error('There was an error!', error);
         }
+        setLoading(false)
     }
 
     const day00 = new Date();
@@ -114,6 +121,9 @@ const Tasks = () => {
             <div className='bottomsection'>
                 <h1 className='heading2'>Today's Tasks</h1>
                 <h1 className='heading3'>{username}</h1>
+                {loading && (
+                    <p style={{ fontFamily: "EB Garamond" }}>Loading...</p>
+                )}
                 <div className='maintaskscontainer'>
                     <div className='thetaskcontainer'>
                         <h1 className='taskdata'>Day 00</h1>
@@ -126,7 +136,7 @@ const Tasks = () => {
                     {day1Down && (
                         <div className='theothermaincontainer'>
                             {Day00Tasks.length > 0 ? (
-                                <div style={{width: "100%"}}>
+                                <div style={{ width: "100%" }}>
                                     {Day00Tasks.map((task, index) => {
                                         return (
                                             <div key={index} className='theothertaskcontainer'>
@@ -158,7 +168,7 @@ const Tasks = () => {
                     {day2Down && (
                         <div className='theothermaincontainer'>
                             {Day01Tasks.length > 0 ? (
-                                <div style={{width: "100%"}}>
+                                <div style={{ width: "100%" }}>
                                     {Day01Tasks.map((task, index) => {
                                         return (
                                             <div key={index} className='theothertaskcontainer'>
@@ -190,7 +200,7 @@ const Tasks = () => {
                     {day3Down && (
                         <div className='theothermaincontainer'>
                             {Day03Tasks.length > 0 ? (
-                                <div style={{width: "100%"}}>
+                                <div style={{ width: "100%" }}>
                                     {Day03Tasks.map((task, index) => {
                                         return (
                                             <div key={index} className='theothertaskcontainer'>
@@ -222,7 +232,7 @@ const Tasks = () => {
                     {day4Down && (
                         <div className='theothermaincontainer'>
                             {Day06Tasks.length > 0 ? (
-                                <div style={{width: "100%"}}>
+                                <div style={{ width: "100%" }}>
                                     {Day06Tasks.map((task, index) => {
                                         return (
                                             <div key={index} className='theothertaskcontainer'>
@@ -254,7 +264,7 @@ const Tasks = () => {
                     {day5Down && (
                         <div className='theothermaincontainer'>
                             {Day10Tasks.length > 0 ? (
-                                <div style={{width: "100%"}}>
+                                <div style={{ width: "100%" }}>
                                     {Day10Tasks.map((task, index) => {
                                         return (
                                             <div key={index} className='theothertaskcontainer'>
